@@ -41,14 +41,14 @@ urlpatterns = [
     path('uloginS/', views.uloginS, name='seller-login'),
     path('uregS/', views.uregS, name='seller-register'),
     path('uregS', views.uregS, name='seller-register-noslash'),
-    path('ulogin/', views.ulogin, name='ulogin'),  # For broker login
+    path('ulogin/', views.ulogin, name='ulogin'), 
     path('brokerlogin/', views.broker_login, name='broker_login'),
     path('uregB', views.uregB, name='buyer-register-noslash'),
 
     # Seller Land Management
     path('SellerAddLand/', views.SellerAddLand, name='SellerAddLand'),
     path('SaddS/', views.SaddS, name='SaddS'),
-    path('Sadd/', views.SaddS, name='Sadd'),  # Alias for SaddS
+    path('Sadd/', views.SaddS, name='Sadd'), 
 
     # Buyer Land Operations
     path('search/', views.search, name='search'),
@@ -76,7 +76,7 @@ urlpatterns = [
     path('schangepass/', views.schangepass, name='schangepass'),
 ]
 
-# Static files configuration (improved version)
+# Static files configuration
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
