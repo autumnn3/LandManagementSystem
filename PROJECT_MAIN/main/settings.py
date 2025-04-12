@@ -68,7 +68,7 @@ DATABASES = {
         'NAME': 'alms',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'Hampshire1020',
+        'PASSWORD': '',
         'PORT': 3306,
         'OPTIONS': {'charset': 'utf8mb4'},
     }
@@ -88,10 +88,10 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# Static files configuration (updated to prevent duplicates)
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'LMS/static'),  # Only using app-specific static now
+    os.path.join(BASE_DIR, 'LMS/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -118,8 +118,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = "krypt686@gmail.com"
-EMAIL_HOST_PASSWORD = "ymlr czbw jsbp vmrz"
+EMAIL_HOST_USER = "your-own-email"
+EMAIL_HOST_PASSWORD = "your-own-password"
 
 # Security settings
 CSRF_COOKIE_SAMESITE = 'Lax'
