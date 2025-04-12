@@ -64,7 +64,7 @@ def loginS(request):
 def uloginB(request):
     """Handle buyer login via both AJAX (GET) and form submission (POST)"""
     if request.method == "GET":
-        # AJAX/API login handling
+        
         Bname = request.GET.get('Bname')
         pwd = request.GET.get('psw')
 
@@ -77,12 +77,12 @@ def uloginB(request):
         try:
             buyer = Buyer.objects.get(Bname__iexact=Bname)
             if check_password(pwd, buyer.password):
-                # Set both cookie and session
+                
                 response = JsonResponse({
                     'success': True,
                     'message': 'Login successful!',
                     'redirect_url': '/lands/',
-                    'buyer_id': buyer.BuyerID  # Optional: Send ID to frontend
+                    'buyer_id': buyer.BuyerID 
                 })
                 response.set_cookie('Bname', Bname, httponly=True, samesite='Lax', secure=settings.DEBUG)
                 request.session['buyer_id'] = buyer.BuyerID
@@ -99,7 +99,7 @@ def uloginB(request):
             )
 
     elif request.method == "POST":
-        # Traditional form login handling
+        
         Bname = request.POST.get('Bname')
         pwd = request.POST.get('psw')
 
@@ -127,7 +127,7 @@ def buyerloginpage(request):
 
 def uregB(request):
     if request.method == "GET":
-        # Handle GET request with query parameters
+        
         uname = request.GET.get('usrname')
         pwd = request.GET.get('psw')
         address = request.GET.get('Address')
@@ -168,7 +168,7 @@ def uregB(request):
             return JsonResponse({'success': False, 'error': 'Registration failed. Please try again.'}, status=400)
 
     elif request.method == "POST":
-        # Existing POST handling code remains unchanged
+        
         uname = request.POST.get('usrname')
         pwd = request.POST.get('psw')
         address = request.POST.get('Address')
@@ -241,10 +241,10 @@ def sellerloginpage(request):
 def uloginS(request):
     if request.method == "POST":
         try:
-            # Check if this is an AJAX request
+        
             is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
             
-            # Get credentials from either JSON or form data
+            
             if is_ajax and request.content_type == 'application/json':
                 try:
                     data = json.loads(request.body)
@@ -305,7 +305,7 @@ def uloginS(request):
             messages.error(request, error_msg)
             return render(request, 'sellerloginpage.html')
 
-    # GET request - show login page
+    
     return render(request, 'sellerloginpage.html')
 
 def uregS(request):
@@ -506,7 +506,7 @@ def SellerAddLand(request):
 
 @require_http_methods(["POST"])
 def SaddS(request):
-    # Check authentication via cookie
+    
     if 'Sname' not in request.COOKIES:
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'error': 'Please login first'}, status=401)
@@ -516,7 +516,7 @@ def SaddS(request):
     try:
         seller = Seller.objects.get(Sname=request.COOKIES.get('Sname'))
         
-        # Create land with the exact field names from your form
+        
         land = Land.objects.create(
             owns=seller,
             Address=request.POST.get("Address"),
@@ -579,10 +579,10 @@ def coll(request):
         return redirect('buyerloginpage')
     
     try:
-        # Get buyer information
+        
         buyer = Buyer.objects.get(Bname=request.COOKIES.get('Bname'))
         
-        # Return JSON response for AJAX or render template
+        
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'html': render_to_string('order_form.html', {}, request)
