@@ -1,7 +1,7 @@
 from django.contrib import admin
 from LMS.models import Seller,Buyer,Land,Amenities,Broker
 
-# Register your models here.
+
 
 admin.site.register(Seller)
 admin.site.register(Buyer)
