@@ -14,7 +14,7 @@ class Seller(models.Model):
 #    Semail = models.EmailField()
     
     def save(self, *args, **kwargs):
-        # Hash password before saving if it's not already hashed
+        
         if not self.password.startswith(('pbkdf2_sha256$', 'bcrypt$', 'argon2')):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
@@ -35,7 +35,7 @@ class Buyer(models.Model):
     password = models.CharField(max_length=255)
     
     def save(self, *args, **kwargs):
-        # Hash password before saving if it's not already hashed
+        
         if not self.password.startswith(('pbkdf2_sha256$', 'bcrypt$', 'argon2')):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
@@ -53,8 +53,7 @@ class Amenities(models.Model):
     water_sources=models.CharField(max_length=50) 
     suitable_crop=models.CharField(max_length=50) 
     weather=models.CharField(max_length=30) 
-    protection_type=models.CharField(max_length=50)
-#    distance_from_mainroad=models.BigIntegerField() 
+    protection_type=models.CharField(max_length=50) 
     contains=models.ManyToManyField(Buyer)
     containss=models.ManyToManyField(Seller)
     
@@ -75,29 +74,25 @@ class Land(models.Model):
     LandID = models.AutoField(primary_key=True)
     owns = models.ForeignKey(Seller, on_delete=models.CASCADE)
     buys = models.ForeignKey(Buyer, on_delete=models.CASCADE, null=True, blank=True)
-    Address = models.CharField(max_length=50)  # Now required
-    Soil_type = models.CharField(max_length=30)  # Now required
-    water_sources = models.CharField(max_length=50)  # Now required
-    Land_area = models.CharField(max_length=50)  # Now required
-    suitable_crop = models.CharField(max_length=50)  # Now required
-    weather = models.CharField(max_length=30)  # Now required
-    protection_type = models.CharField(max_length=50)  # Now required
-    Amount = models.CharField(max_length=50)  # Now required
+    Address = models.CharField(max_length=50)  
+    Soil_type = models.CharField(max_length=30)  
+    water_sources = models.CharField(max_length=50)  
+    Land_area = models.CharField(max_length=50)  
+    suitable_crop = models.CharField(max_length=50)  
+    weather = models.CharField(max_length=30)  
+    protection_type = models.CharField(max_length=50) 
+    Amount = models.CharField(max_length=50) 
 
 
 class Broker(models.Model): 
     BrokerID = models.AutoField(primary_key=True)
     Brname = models.CharField(max_length=50) 
     Brphone_number = models.BigIntegerField() 
-#    Br_experience = models.BigIntegerField() 
-#    commission_percentage = models.BigIntegerField()
     helps = models.ManyToManyField(Buyer)
     password = models.CharField(max_length=255)
     address = models.EmailField()
-#    Bremail = models.EmailField() 
     
     def save(self, *args, **kwargs):
-        # Hash password before saving if it's not already hashed
         if not self.password.startswith(('pbkdf2_sha256$', 'bcrypt$', 'argon2')):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
