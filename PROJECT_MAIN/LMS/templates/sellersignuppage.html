@@ -1,0 +1,76 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#f").submit(function (e) {
+            e.preventDefault();
+
+            // Get form values
+            var usrname = $("#usrname").val();
+            var psw = $("#psw").val();
+            var Address = $("#Address").val();
+            var phone = $("#phone").val();
+
+            // Show loading state on button
+            var submitBtn = $(this).find('button[type="submit"]');
+            submitBtn.prop('disabled', true).text('Processing...');
+
+            // Make AJAX request
+            $.ajax({
+                url: "{% url 'seller-register' %}",
+                type: "GET",
+                data: {
+                    usrname: usrname,
+                    psw: psw,
+                    Address: Address,
+                    phone: phone
+                },
+                success: function (response) {
+                    // Check if response is "OK" (success)
+                    if (response.trim() === "OK") {
+                        window.location.href = "{% url 'sellerloginpage' %}";
+                    } else {
+                        // Show any other response as error
+                        alert(response || "Registration completed but unexpected response");
+                        submitBtn.prop('disabled', false).text('Sign Up');
+                    }
+                },
+                error: function (xhr) {
+                    // Restore button state
+                    submitBtn.prop('disabled', false).text('Sign Up');
+
+                    // Show error message from server response
+                    alert(xhr.responseText || "Registration failed. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+{% load static %}
+<title>Signup</title>
+<link rel="stylesheet" href="{% static 'CSS/sellersignuppage.css' %}">
+<body>
+    <a href="/home"><button id="se" type="submit" style="background-color:red;color:#FFFFFF;"><h1>LMS<h1></button></a>
+    <div class="signup">
+        <h1 class="h1">SELLER</h1>
+        <h2 class="h2">Have an account,<a href="\sellerloginpage">Sign In</a></h2>
+
+        <form id="f">
+            <fa class="fname">Full Name</fa>
+            <input class="fname1" placeholder="Seller Full Name " name="name" id="usrname" type="text" required>
+            <pa class="pswd">Password</pa>
+            <input type="password" class="pswd1" placeholder="**********" name="psw" id="psw" required>
+            <ad class="add">E-mail</ad>
+            <input type="email" class="add1" placeholder="______@______" name="Address" id="Address" required>
+            <ph class="phno">Phone Number</ph>
+            <input type="tel" class="phno1" placeholder="without +254" name="phone" id="phone" required>
+
+            <button class="button" type="submit">Sign Up</button>
+        </form>
+    </div>
+    <div>
+        <img src="{% static 'images/bg.png' %}" alt="Background IMAGE" class="img">
+    </div>
+</body>
+</html>

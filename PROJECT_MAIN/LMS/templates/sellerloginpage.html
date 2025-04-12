@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seller Login - LMS</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/sellerloginpage.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .bg-image img {
+            width: 100%;
+            height: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .error-message {
+            color: #ff3333;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .button.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <a href="/home/">
+        <button id="se" type="button" style="background-color:red;color:#FFFFFF;">
+            <h1>LMS</h1>
+        </button>
+    </a>
+
+    <div class="login">
+        <h1 class="h1">WELCOME BACK! SELLER</h1>
+        <h2 class="h2">
+            Don't have an account? <a href="/sellersignuppage/">Sign Up</a>
+        </h2>
+
+        <form id="loginForm" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="Sname" class="username">Username</label>
+                <input type="text"
+                       class="uinput"
+                       placeholder="Enter your username"
+                       name="Sname"
+                       id="Sname"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="psw" class="password">Password</label>
+                <input type="password"
+                       class="pinput"
+                       placeholder="Enter your password"
+                       name="psw"
+                       id="psw"
+                       required />
+            </div>
+
+            <a class="flink" href="/spass/">Forgot password?</a>
+            <button class="button" id="loginBtn" type="submit">Sign In</button>
+
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+
+    <div class="bg-image">
+        <img src="{% static 'images/bg.png' %}" alt="Agricultural background" class="img">
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Get CSRF token function
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            $("#loginForm").submit(function (e) {
+                e.preventDefault();
+
+                // Get form values
+                var formData = {
+                    'Sname': $("#Sname").val().trim(),
+                    'psw': $("#psw").val(),
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                };
+
+                // Validate inputs
+                if (!formData.Sname) {
+                    $("#error-message").text("Please enter your username");
+                    return;
+                }
+                if (!formData.psw) {
+                    $("#error-message").text("Please enter your password");
+                    return;
+                }
+
+                // Set loading state
+                $("#loginBtn").prop("disabled", true).addClass("loading").text("Authenticating...");
+                $("#error-message").text("");
+
+                // Submit as form data
+                $.ajax({
+                    url: "/uloginS/",
+                    type: "POST",
+                    data: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": getCookie('csrftoken')
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = response.redirect_url || "/SellerAddLand/";
+                        } else {
+                            $("#error-message").text(response.error || "Invalid username or password");
+                        }
+                    },
+                    error: function (xhr) {
+                        try {
+                            var error = JSON.parse(xhr.responseText);
+                            $("#error-message").text(error.error || "Login failed. Please try again.");
+                        } catch (e) {
+                            if (xhr.status === 400) {
+                                $("#error-message").text("Invalid request. Please check your inputs.");
+                            } else if (xhr.status === 404) {
+                                $("#error-message").text("User not found. Please check your username.");
+                            } else {
+                                $("#error-message").text("Server error occurred. Please try again later.");
+                            }
+                        }
+                    },
+                    complete: function () {
+                        $("#loginBtn").prop("disabled", false).removeClass("loading").text("Sign In");
+                    }
+                });
+            });
+
+            // Clear error when typing
+            $("#Sname, #psw").on("input", function () {
+                $("#error-message").text("");
+            });
+        });
+    </script>
+</body>
+</html>

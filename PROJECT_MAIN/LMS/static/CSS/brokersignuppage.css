@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Overpass:wght@800&family=Nunito:wght@400;600&display=swap');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.signup {
+    position: relative;
+    width: 640px;
+    height: 971px;
+    left: 46px;
+    top: 17px;
+}
+
+.h1 {
+    position: relative;
+    height: 55px;
+    left: 46px;
+    font-family: 'Overpass', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: 0.1em;
+    color: #444B59;
+}
+
+.h2 {
+    position: relative;
+    height: 33px;
+    left: 46px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    color: #444B59;
+}
+
+.fname, .pswd, .add, .phno {
+    position: relative;
+    left: 46px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    color: #444B59;
+    margin: 16px 0px;
+}
+
+.fname1, .pswd1, .add1, .phno1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 24px 32px;
+    position: relative;
+    width: 640px;
+    height: 81px;
+    left: 46px;
+    background: #FFFFFF;
+    border: 2px solid #789ADE;
+    box-sizing: border-box;
+    border-radius: 70px;
+    margin: 16px 0px;
+}
+
+.phno1 {
+    left: 46px; /* Fix misalignment */
+}
+
+.button {
+    display: flex;
+    padding: 24px 32px;
+    position: relative;
+    width: 640px;
+    height: 80px;
+    left: 6px;
+    top: 69px;
+    color: #FFFFFF;
+    background: #8699DA;
+    box-shadow: 4px 8px 12px rgba(78, 99, 141, 0.06), inset 0px 4px 12px rgba(200, 211, 249, 0.6);
+    border-radius: 80px;
+}
+
+    .button:hover {
+        background: #6e89c8;
+        cursor: pointer;
+    }
+
+    .button:active {
+        background: #5a72b0;
+        box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+.img {
+    position: absolute;
+    width: 684.81px;
+    height: 863px;
+    left: 755px;
+    top: 57px;
+    background-image: url('/static/images/bg.png');
+}
+
+@media screen and (max-width: 768px) {
+    .signup, .img {
+        width: 90%;
+        left: 5%;
+        height: auto;
+    }
+
+    .button, .fname1, .pswd1, .add1, .phno1 {
+        width: 100%;
+        left: 0;
+    }
+}

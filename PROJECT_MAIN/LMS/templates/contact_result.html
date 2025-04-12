@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form Result</title>
+</head>
+<body>
+    {% if success %}
+    <div style="color: green;">{{ message }}</div>
+    {% else %}
+    <div style="color: red;">{{ message }}</div>
+    {% endif %}
+    <a href="/">Return to Home</a>
+</body>
+</html>

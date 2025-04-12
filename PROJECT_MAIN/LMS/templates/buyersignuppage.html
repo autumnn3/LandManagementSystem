@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#f").submit(function (e) {
+                e.preventDefault();
+
+                const usrname = $("#usrname").val();
+                const psw = $("#psw").val();
+                const Address = $("#Address").val();
+                const phone = $("#phone").val();
+
+                $.get("http://localhost:8000/uregB", {
+                    usrname: usrname,
+                    psw: psw,
+                    Address: Address,
+                    phone: phone
+                }).done(function (data) {
+                    if (data.success) {
+                        // Redirect to login page on success
+                        window.location.href = data.redirect_url || '/buyerloginpage/';
+                    } else {
+                        // Show error message without page reload
+                        alert(data.error || "Registration failed");
+                    }
+                }).fail(function () {
+                    alert("Server error occurred");
+                });
+            });
+        });
+    </script>
+
+    {% load static %}
+    <title>Signup</title>
+    <link rel="stylesheet" href="{% static 'CSS/buyersignuppage.css' %}">
+</head>
+<body>
+    <a href="/home"><button id="se" type="submit" style="background-color:red;color:#FFFFFF;"><h1>LMS<h1></button></a>
+    <div class="signup">
+        <h1 class="h1">BUYER</h1>
+        <h2 class="h2">Have an account,<a href="\buyerloginpage">Sign In</a></h2>
+
+        <form id="f">
+            <fa class="fname">Full Name</fa>
+            <input class="fname1" placeholder="Buyer Full Name " id="usrname" name="usrname">
+            <pa class="pswd">Password</pa>
+            <input type="password" class="pswd1" placeholder="**********" id="psw" name="psw">
+            <ad class="add">E-mail</ad>
+            <input type="address" class="add1" placeholder="______@_____" id="Address" name="Address">
+            <ph class="phno">Phone Number</ph>
+            <input type="Phonenumber" class="phno1" placeholder="Without +254" id="phone" name="phone">
+
+            <button class="button">Sign Up</button>
+        </form>
+    </div>
+    <div>
+        <img src="{% static 'images/bg.png' %}" alt="Background IMAGE" class="img">
+    </div>
+</body>
+</html>
